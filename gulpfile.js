@@ -47,8 +47,10 @@ gulp.task('serve', ['sass'], function () {
 
 gulp.task('sass', function () {
 	return gulp.src(config.client.scss)
+    .pipe(sourcemaps.init())
     .pipe(sass())
     .pipe(postcss([autoprefixer({browsers: ['last 1 version']})]))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(config.client.dist + 'css'))
     .pipe(browserSync.stream());
 });
