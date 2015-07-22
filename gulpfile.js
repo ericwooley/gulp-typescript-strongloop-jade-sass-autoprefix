@@ -9,7 +9,7 @@ var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
-
+var server = require( 'gulp-develop-server' );
 var dev = false;
 var config = {
 	dist: './dist',
@@ -18,15 +18,26 @@ var config = {
 		ts: ['./client/ts/**/*.ts'],
 		scss: ['./client/scss/**/*.scss'],
 		jade: ['./client/jade/**/*.jade'],
-		dist: './dist/client/',
+		dist: './server/client/',
 	},
 	server: {
-		dist: ['./dist/']
+    src: ['./server/server'],
+		dir: './server/server/server.js'
 	}
 };
+
+gulp.task( 'strongloop-server', function() {
+  server.listen( {
+    path: config.server.dir,
+    NODE_ENV: dev ? 'dev' : 'production'
+  });
+  gulp.watch( config.server.src, server.restart );
+});
+
 gulp.task('serve', ['sass'], function () {
 	browserSync.init({
-		server: "./dist/client"
+    port: 9000,
+		server: config.client.dist
 	});
   gulp.watch(config.client.assets, ['copy-assets']);
 	gulp.watch(config.client.scss, ['sass']);
@@ -78,5 +89,5 @@ gulp.task('copy-assets', function() {
 })
 
 gulp.task('default', function (cb) {
-	runSequence('clean', ['copy-assets', 'templates', 'typescript', 'sass'], 'serve', cb);
+	runSequence('clean', ['copy-assets', 'templates', 'typescript', 'sass'], ['serve', 'strongloop-server'], cb);
 });
