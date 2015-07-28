@@ -10,7 +10,12 @@ var sourcemaps = require('gulp-sourcemaps');
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 var server = require( 'gulp-develop-server' );
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+
 var dev = false;
+
 var config = {
 	dist: './dist',
 	client: {
@@ -63,16 +68,14 @@ gulp.task('templates', function () {
 });
 
 gulp.task('typescript', function () {
-	var tsResult = gulp.src(config.client.ts)
-  .pipe(sourcemaps.init())
-  .pipe(ts({
-		noImplicitAny: true,
-		out: 'bundle.js'
-	}));
-	return tsResult.js
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest(config.client.dist + 'js'))
-    .pipe(browserSync.stream());
+	var b = browserify()
+    .add('client/ts/main.ts')
+    .plugin('tsify', { noImplicitAny: true });
+		return b.bundle()
+		.pipe(source('bundle.js'))
+    .pipe(buffer())
+	  .pipe(gulp.dest(config.client.dist + 'js'))
+	  .pipe(browserSync.stream());
 });
 
 gulp.task('clean', function () {

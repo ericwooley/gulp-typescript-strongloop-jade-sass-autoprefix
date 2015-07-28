@@ -11,6 +11,7 @@
   "devDependencies": {
     "autoprefixer": "^5.2.0",
     "browser-sync": "^2.8.0",
+    "browserify": "^11.0.0",
     "clean": "^4.0.1",
     "gulp": "^3.9.0",
     "gulp-clean": "^0.3.1",
@@ -20,6 +21,8 @@
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-typescript": "^2.8.0",
-    "run-sequence": "^1.1.2"
+    "run-sequence": "^1.1.2",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
