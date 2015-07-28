@@ -1,6 +1,3 @@
-# Warning
-I don't know if typescript gulp and browserify get along very well, This project setup works, technically, but not very well, I have given up trying to import modules.
-
 # gulp-typescript-strongloop-jade-sass-autoprefix
 Gulp boilerplate for typescript, strongloop, jade, sass, and autoprefix
 
